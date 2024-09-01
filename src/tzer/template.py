@@ -23,6 +23,7 @@ def execute_both_mode(ctx :Context) -> Context:
     params = ctx.runtime.params
     module = ctx.runtime.module
     target = ctx.compile.target
+    print("target", target)
     dev = tvm.cpu(0)
 
     if params is not None:
@@ -44,8 +45,9 @@ def execute_both_mode(ctx :Context) -> Context:
     with tvm.transform.PassContext(opt_level=0):
         module, params = relay.optimize(module, target=target, params=params)
 
-        graph, lowered_func, params = graph_executor_codegen.GraphExecutorCodegen(None, target=target).codegen(module['main'])
-        ir_m = lowered_func[target]
+        graph, lowered_func, params = graph_executor_codegen.GraphExecutorCodegen(None, target=target).codegen(module, module['main'])
+        name_to_lowered_func = {str(k):v for k, v in lowered_func.items()}
+        ir_m = name_to_lowered_func[str(target)]
 
     with tvm.transform.PassContext(opt_level=4):
         opt = tvm.transform.Sequential(
@@ -121,7 +123,7 @@ def execute_tir_mode(ctx :Context) -> Context:
     with tvm.transform.PassContext(opt_level=0):
         module, params = relay.optimize(module, target=target, params=params)
 
-        graph, lowered_func, params = graph_executor_codegen.GraphExecutorCodegen(None, target=target).codegen(module['main'])
+        graph, lowered_func, params = graph_executor_codegen.GraphExecutorCodegen(None, target=target).codegen(module, module['main'])
         ir_m = lowered_func[target]
 
     with tvm.transform.PassContext(opt_level=4):
