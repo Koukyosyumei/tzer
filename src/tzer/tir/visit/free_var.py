@@ -24,8 +24,8 @@ class TIRFreeVar(TIRVisitor[Set[tir.Var], ArgBound]):
     def visit_itervar(self, op: tir.IterVar, arg: ArgBound) -> Set[tir.IterVar]:
         return self.visit_var(op.var, arg)
 
-    def visit_load(self, op: tir.Load, arg: ArgBound) -> Set[tir.Var]:
-        return self(op.buffer_var, arg) | self(op.index, arg) | self(op.predicate, arg)
+    #def visit_load(self, op: tir.Load, arg: ArgBound) -> Set[tir.Var]:
+    #    return self(op.buffer_var, arg) | self(op.index, arg) | self(op.predicate, arg)
 
     def visit_let(self, op: tir.Let, arg: ArgBound) -> Set[tir.Var]:
         new_arg = ArgBound(arg.bound_vars | {op.var})
@@ -172,8 +172,8 @@ class TIRFreeVar(TIRVisitor[Set[tir.Var], ArgBound]):
         res |= self(op.body, new_arg)
         return res
 
-    def visit_store(self, op: tir.Store, arg: ArgBound) -> Set[tir.Var]:
-        return self(op.buffer_var, arg) | self(op.value, arg) | self(op.index, arg) | self(op.predicate, arg)
+    #def visit_store(self, op: tir.Store, arg: ArgBound) -> Set[tir.Var]:
+    #    return self(op.buffer_var, arg) | self(op.value, arg) | self(op.index, arg) | self(op.predicate, arg)
 
     def visit_bufferstore(self, op: tir.BufferStore, arg: ArgBound) -> Set[tir.Var]:
         res = self(op.value, arg)

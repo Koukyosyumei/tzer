@@ -95,6 +95,7 @@ class RecursiveMutatorCombinator(TIRAbstractTransformer[Context], Mutator, IRMut
     def visit_sizevar(self, op: tir.SizeVar, context: Context) -> TIRNode:
         return self.mutate_node(op, context)
 
+    """
     def visit_load(self, op: tir.Load, context: Context) -> TIRNode:
         options = [(1, lambda: self.mutate_node(op, context))]
         options.append((self.get_node_size(op.index), lambda: tir.Load(
@@ -111,6 +112,7 @@ class RecursiveMutatorCombinator(TIRAbstractTransformer[Context], Mutator, IRMut
                 self(op.predicate, context),
             )))
         return util.weighted_select(options)()
+    """
 
     def visit_bufferload(self, op: tir.BufferLoad, context: Context) -> TIRNode:
         options = [(1, lambda: self.mutate_node(op, context))]
@@ -548,6 +550,7 @@ class RecursiveMutatorCombinator(TIRAbstractTransformer[Context], Mutator, IRMut
             )))
         return util.weighted_select(options)()
 
+    """
     def visit_store(self, op: tir.Store, context: Context) -> TIRNode:
         options = [
             (1, lambda: self.mutate_node(op, context)),
@@ -578,6 +581,7 @@ class RecursiveMutatorCombinator(TIRAbstractTransformer[Context], Mutator, IRMut
                 )),
             )))
         return util.weighted_select(options)()
+    """
 
     def visit_bufferstore(self, op: tir.BufferStore, context: Context) -> TIRNode:
         options = [

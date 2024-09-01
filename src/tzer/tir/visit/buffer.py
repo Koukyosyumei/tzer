@@ -9,24 +9,23 @@ class TIRBufferVarRebinder(TIRAbstractTransformer[None]):
 
     """Rebind buffer variables"""
 
-    def visit_load(self, op: tir.Load, arg: None) -> tir.Load:
+    def visit_load(self, op: tir.BufferLoad, arg: None) -> tir.BufferLoad:
         new_buffer = tir.decl_buffer((1,), op.dtype)
         new_var = tir.Var(f'load_{self.iter}', 'handle')
         self.buffer_map[new_var] = new_buffer
         self.iter += 1
-        return tir.Load(
-            op.dtype,
+        return tir.BufferLoad(
             new_buffer.data,
             op.index,
             op.predicate,
         )
 
-    def visit_store(self, op: tir.Store, arg: None) -> tir.Store:
+    def visit_store(self, op: tir.BufferStore, arg: None) -> tir.BufferStore:
         new_buffer = tir.decl_buffer((1,), 'float32')
         new_var = tir.Var(f'store_{self.iter}', 'handle')
         self.buffer_map[new_var] = new_buffer
         self.iter += 1
-        return tir.Store(
+        return tir.BufferStore(
             new_buffer.data,
             op.value,
             op.index,

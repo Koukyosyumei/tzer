@@ -189,13 +189,13 @@ class Select(ExprCons):
     def __call__(self, cond: tir.PrimExpr, true_val: tir.PrimExpr, false_val: tir.PrimExpr) -> tir.Select:  # type: ignore
         return tir.Select(tir.Cast('bool', cond), true_val, false_val)
 
-
+"""
 class Load(ExprCons):
     src_doms = [DType, tir.Var, tir.PrimExpr, tir.PrimExpr]
 
     def __call__(self, dtype: DType, bfvar: tir.Var, index: tir.PrimExpr, predicate: tir.PrimExpr) -> tir.Load:  # type: ignore
         return tir.Load(dtype, bfvar, index, predicate)
-
+"""
 
 class Let(ExprCons):
     src_doms = [tir.Var, tir.PrimExpr, tir.PrimExpr]
@@ -546,13 +546,13 @@ class While(StmtCons):
     def __call__(self, cond: tir.PrimExpr, body: tir.Stmt) -> tir.stmt.While:  # type: ignore
         return tir.stmt.While(tir.Cast('bool', cond), body)
 
-
+"""
 class Store(StmtCons):
     src_doms = [tir.Var, tir.PrimExpr, tir.PrimExpr, tir.PrimExpr]
 
     def __call__(self, bfvar: tir.Var, val: tir.PrimExpr, index: tir.PrimExpr, pred: tir.PrimExpr) -> tir.Store:  # type: ignore
         return tir.Store(bfvar, val, index, pred)
-
+"""
 
 class Allocate(StmtCons):
     src_doms = [tir.Var, DType, List[tir.PrimExpr], tir.PrimExpr, tir.Stmt]

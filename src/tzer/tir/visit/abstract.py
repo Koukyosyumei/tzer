@@ -23,8 +23,8 @@ class TIRVisitor(Generic[TIRReturn, Arg]):
             return self._visit_sizevar(op, arg)
         elif isinstance(op, tir.IterVar):
             return self._visit_itervar(op, arg)
-        elif isinstance(op, tir.Load):
-            return self._visit_load(op, arg)
+        #elif isinstance(op, tir.Load):
+        #    return self._visit_load(op, arg)
         elif isinstance(op, tir.BufferLoad):
             return self._visit_bufferload(op, arg)
         elif isinstance(op, tir.ProducerLoad):
@@ -101,8 +101,8 @@ class TIRVisitor(Generic[TIRReturn, Arg]):
             return self._visit_while(op, arg)
         elif isinstance(op, tir.Allocate):
             return self._visit_allocate(op, arg)
-        elif isinstance(op, tir.Store):
-            return self._visit_store(op, arg)
+        #elif isinstance(op, tir.Store):
+        #    return self._visit_store(op, arg)
         elif isinstance(op, tir.BufferStore):
             return self._visit_bufferstore(op, arg)
         elif isinstance(op, tir.BufferRealize):
@@ -146,8 +146,8 @@ class TIRVisitor(Generic[TIRReturn, Arg]):
     def _visit_itervar(self, op: tir.IterVar, arg: Arg) -> TIRReturn:
         return self.__class__.decorate(self.__class__.visit_itervar)(self, op, arg)
 
-    def _visit_load(self, op: tir.Load, arg: Arg) -> TIRReturn:
-        return self.__class__.decorate(self.__class__.visit_load)(self, op, arg)
+    #def _visit_load(self, op: tir.Load, arg: Arg) -> TIRReturn:
+    #    return self.__class__.decorate(self.__class__.visit_load)(self, op, arg)
 
     def _visit_bufferload(self, op: tir.BufferLoad, arg: Arg) -> TIRReturn:
         return self.__class__.decorate(self.__class__.visit_bufferload)(self, op, arg)
@@ -263,8 +263,8 @@ class TIRVisitor(Generic[TIRReturn, Arg]):
     def _visit_allocate(self, op: tir.Allocate, arg: Arg) -> TIRReturn:
         return self.__class__.decorate(self.__class__.visit_allocate)(self, op, arg)
 
-    def _visit_store(self, op: tir.Store, arg: Arg) -> TIRReturn:
-        return self.__class__.decorate(self.__class__.visit_store)(self, op, arg)
+    #def _visit_store(self, op: tir.Store, arg: Arg) -> TIRReturn:
+    #    return self.__class__.decorate(self.__class__.visit_store)(self, op, arg)
 
     def _visit_bufferstore(self, op: tir.BufferStore, arg: Arg) -> TIRReturn:
         return self.__class__.decorate(self.__class__.visit_bufferstore)(self, op, arg)
@@ -312,9 +312,9 @@ class TIRVisitor(Generic[TIRReturn, Arg]):
     def visit_itervar(self, op: tir.IterVar, arg: Arg) -> TIRReturn:
         ...
 
-    @abstractmethod
-    def visit_load(self, op: tir.Load, arg: Arg) -> TIRReturn:
-        ...
+    #@abstractmethod
+    #def visit_load(self, op: tir.Load, arg: Arg) -> TIRReturn:
+    #    ...
 
     @abstractmethod
     def visit_bufferload(self, op: tir.BufferLoad, arg: Arg) -> TIRReturn:
@@ -468,9 +468,9 @@ class TIRVisitor(Generic[TIRReturn, Arg]):
     def visit_allocate(self, op: tir.Allocate, arg: Arg) -> TIRReturn:
         ...
 
-    @abstractmethod
-    def visit_store(self, op: tir.Store, arg: Arg) -> TIRReturn:
-        ...
+    #@abstractmethod
+    #def visit_store(self, op: tir.Store, arg: Arg) -> TIRReturn:
+    #    ...
 
     @abstractmethod
     def visit_bufferstore(self, op: tir.BufferStore, arg: Arg) -> TIRReturn:
@@ -538,6 +538,7 @@ class TIRAbstractTransformer(Generic[Arg], TIRVisitor[TIRNode, Arg]):
             span=op.span
         )
 
+    """
     def visit_load(self, op: tir.Load, arg) -> TIRNode:
         return tir.Load(
             dtype=op.dtype,
@@ -546,6 +547,7 @@ class TIRAbstractTransformer(Generic[Arg], TIRVisitor[TIRNode, Arg]):
             predicate=self(op.predicate, arg),
             span=op.span
         )
+    """
 
     def visit_let(self, op: tir.Let, arg) -> TIRNode:
         return tir.Let(
@@ -799,6 +801,7 @@ class TIRAbstractTransformer(Generic[Arg], TIRVisitor[TIRNode, Arg]):
             op.span
         )
 
+    """
     def visit_store(self, op: tir.Store, arg) -> TIRNode:
         return tir.Store(
             self(op.buffer_var, arg),
@@ -807,6 +810,7 @@ class TIRAbstractTransformer(Generic[Arg], TIRVisitor[TIRNode, Arg]):
             self(op.predicate, arg),
             op.span
         )
+    """
 
     def visit_bufferstore(self, op: tir.BufferStore, arg) -> TIRNode:
         return tir.BufferStore(

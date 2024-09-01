@@ -28,6 +28,7 @@ class TIRNodeTraverser(TIRVisitor[List[TIRNode], None]):
             *self(op.var, arg),
         ]
 
+    """
     @append_op
     def visit_load(self, op: tir.Load, arg=None) -> List[TIRNode]:
         return [
@@ -35,6 +36,7 @@ class TIRNodeTraverser(TIRVisitor[List[TIRNode], None]):
             *self(op.index, arg),
             *self(op.predicate, arg),
         ]
+    """
 
     @append_op
     def visit_let(self, op: tir.Let, arg=None) -> List[TIRNode]:
@@ -227,6 +229,7 @@ class TIRNodeTraverser(TIRVisitor[List[TIRNode], None]):
             *self(op.body, arg),
         ]
 
+    """
     @append_op
     def visit_store(self, op: tir.Store, arg=None) -> List[TIRNode]:
         return [
@@ -235,6 +238,7 @@ class TIRNodeTraverser(TIRVisitor[List[TIRNode], None]):
             *self(op.index, arg),
             *self(op.predicate, arg),
         ]
+    """
 
     @append_op
     def visit_bufferstore(self, op: tir.BufferStore, arg=None) -> List[TIRNode]:

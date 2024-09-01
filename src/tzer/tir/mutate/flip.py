@@ -127,9 +127,9 @@ class Flipper(TIRAbstractTransformer[Context], Mutator):
             random.choice(primitive.THREADTAGS),
         )
 
-    @auto_derive
-    def visit_load(self, op: tir.Load, context: Context) -> List[TIRNode]:
-        return [op.index, op.predicate]
+    #@auto_derive
+    #def visit_load(self, op: tir.Load, context: Context) -> List[TIRNode]:
+    #    return [op.index, op.predicate]
 
     @auto_derive
     def visit_bufferload(self, op: tir.BufferLoad, context: Context) -> List[TIRNode]:
@@ -308,9 +308,9 @@ class Flipper(TIRAbstractTransformer[Context], Mutator):
     def visit_allocate(self, op: tir.Allocate, context: Context) -> List[TIRNode]:
         return [*list(op.extents), op.condition, op.body]
 
-    @auto_derive
-    def visit_store(self, op: tir.Store, context: Context) -> List[TIRNode]:
-        return [op.value, op.predicate, op.index]
+    #@auto_derive
+    #def visit_store(self, op: tir.Store, context: Context) -> List[TIRNode]:
+    #    return [op.value, op.predicate, op.index]
 
     @auto_derive
     def visit_bufferstore(self, op: tir.BufferStore, context: Context) -> List[TIRNode]:

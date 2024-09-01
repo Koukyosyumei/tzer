@@ -36,8 +36,10 @@ class SubIRFilter(TIRVisitor[List[TIRNode], Constraint]):
     def visit_itervar(self, op: tir.IterVar, constraint: Constraint) -> List[TIRNode]:
         return []
 
+    """
     def visit_load(self, op: tir.Load, constraint: Constraint) -> List[TIRNode]:
         return [op.index, op.predicate]
+    """
 
     def visit_bufferload(self, op: tir.BufferLoad, constraint: Constraint) -> List[TIRNode]:
         return list(op.indices)
@@ -163,8 +165,8 @@ class SubIRFilter(TIRVisitor[List[TIRNode], Constraint]):
     def visit_allocate(self, op: tir.Allocate, constraint: Constraint) -> List[TIRNode]:
         return [op.body]
 
-    def visit_store(self, op: tir.Store, constraint: Constraint) -> List[TIRNode]:
-        return []
+    #def visit_store(self, op: tir.Store, constraint: Constraint) -> List[TIRNode]:
+    #    return []
 
     def visit_bufferstore(self, op: tir.BufferStore, constraint: Constraint) -> List[TIRNode]:
         return []

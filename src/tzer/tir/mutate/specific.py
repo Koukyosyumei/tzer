@@ -28,7 +28,7 @@ class SpecificMutator(Mutator):
             buffer = random.choice(possible_buffers)
             return random.choices([
                 lambda: tir.BufferLoad(buffer, [op]),
-                lambda: tir.Load(op.dtype, buffer.data, [op], self.generator.generate(Context(PrimExprConstraint('bool'))))
+                #lambda: tir.Load(op.dtype, buffer.data, [op], self.generator.generate(Context(PrimExprConstraint('bool'))))
             ])()
         else:
             return op
@@ -107,7 +107,7 @@ class SpecificMutator(Mutator):
                 size=random.randint(1, 10))
             predicate =  self.generator.generate(Context(PrimExprConstraint('bool')))
             new = random.choice([
-                lambda: tir.Store(buffer_var=buffer.data, value=expr, index=index, predicate=predicate),
+                #lambda: tir.Store(buffer_var=buffer.data, value=expr, index=index, predicate=predicate),
                 lambda: tir.BufferStore(buffer_var=buffer, value=expr, index=[index]),
             ])()
         else:
@@ -136,10 +136,10 @@ class SpecificMutator(Mutator):
                 thread_binding = self.generator.generate_itervar(Context(PrimExprConstraint('int')))
             
             if is_seq:
-                if isinstance(new, tir.Store):
-                    new = tir.Store(buffer_var=new.buffer_var, value=new.value, index=index+loop_var, predicate=new.predicate)
-                else:
-                    new = tir.BufferStore(buffer=new.buffer, value=new.value, indices=[new.indices[0]+loop_var])
+                #if isinstance(new, tir.Store):
+                #    new = tir.Store(buffer_var=new.buffer_var, value=new.value, index=index+loop_var, predicate=new.predicate)
+                #else:
+                new = tir.BufferStore(buffer=new.buffer, value=new.value, indices=[new.indices[0]+loop_var])
             else:
                 new = random.choice([attr_body, ret_body])(new)
 

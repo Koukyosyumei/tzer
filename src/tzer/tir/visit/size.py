@@ -32,8 +32,8 @@ class MemoizedGetSize(TIRVisitor[int, None]):
     def visit_itervar(self, op: tir.IterVar, arg: None) -> int:
         return 2
 
-    def visit_load(self, op: tir.Load, arg: None) -> int:
-        return 1 + self(op.buffer_var, None) + self(op.index, None) + self(op.predicate, None)
+    # def visit_load(self, op: tir.Load, arg: None) -> int:
+    #    return 1 + self(op.buffer_var, None) + self(op.index, None) + self(op.predicate, None)
 
     def visit_let(self, op: tir.Let, arg: None) -> int:
         return 1 + self(op.var, None) + self(op.value, None) + self(op.body, None)
@@ -177,8 +177,8 @@ class MemoizedGetSize(TIRVisitor[int, None]):
             sum += self(extent, None)
         return sum
 
-    def visit_store(self, op: tir.Store, arg: None) -> int:
-        return 1 + self(op.buffer_var, arg) + self(op.value, arg) + self(op.index, arg) + self(op.predicate, arg)
+    #def visit_store(self, op: tir.Store, arg: None) -> int:
+    #    return 1 + self(op.buffer_var, arg) + self(op.value, arg) + self(op.index, arg) + self(op.predicate, arg)
 
     def visit_bufferstore(self, op: tir.BufferStore, arg: None) -> int:
         sum = 1 + self(op.value, None)

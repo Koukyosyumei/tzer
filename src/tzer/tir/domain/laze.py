@@ -126,6 +126,7 @@ class Laze(TIRVisitor[LazyDomNode, Any]):
             LazyDomNode(ThreadTag, None, op.thread_tag, []),
         ])
 
+    """
     def visit_load(self, op: tir.Load, arg) -> LazyDomNode:
         return LazyDomNode(tir.PrimExpr, cons.Load(), None, [
             LazyDomNode(str, None, op.dtype, []),
@@ -133,6 +134,7 @@ class Laze(TIRVisitor[LazyDomNode, Any]):
             self(op.index, None),
             self(op.predicate, None)
         ])
+    """
 
     def visit_let(self, op: tir.Let, arg) -> LazyDomNode:
         return LazyDomNode(tir.PrimExpr, cons.Let(), None, [
@@ -360,6 +362,7 @@ class Laze(TIRVisitor[LazyDomNode, Any]):
             self(op.body, None)
         ])
 
+    """
     def visit_store(self, op: tir.Store, arg) -> LazyDomNode:
         return LazyDomNode(tir.Stmt, cons.Store(), None, [
             LazyDomNode(tir.Var, None, op.buffer_var, []),
@@ -367,6 +370,7 @@ class Laze(TIRVisitor[LazyDomNode, Any]):
             self(op.index, None),
             self(op.predicate, None)
         ])
+    """
 
     def visit_bufferstore(self, op: tir.BufferStore, arg) -> LazyDomNode:
         return LazyDomNode(tir.Stmt, cons.SomeCons(
