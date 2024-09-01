@@ -23,7 +23,6 @@ def execute_both_mode(ctx :Context) -> Context:
     params = ctx.runtime.params
     module = ctx.runtime.module
     target = ctx.compile.target
-    print("target", target)
     dev = tvm.cpu(0)
 
     if params is not None:
@@ -50,8 +49,10 @@ def execute_both_mode(ctx :Context) -> Context:
         ir_m = name_to_lowered_func[str(target)]
 
     with tvm.transform.PassContext(opt_level=4):
+        passes = [n.mutate() for n in ctx.compile.tir_pass_nodes]
+        passes = [p for p in passes if str(p) != "PrimFuncPass(tir.LowerTVMBuiltin, opt_level=0)"]
         opt = tvm.transform.Sequential(
-                passes=[n.mutate() for n in ctx.compile.tir_pass_nodes],
+                passes=passes,
                 opt_level=4
         )
 
